@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+declare const jQuery:any;
+declare const $:any;
+
 @Component({
   selector: 'app-reaction-card',
   templateUrl: './reaction-card.component.html',
@@ -7,12 +10,20 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ReactionCardComponent implements OnInit {
 
-  @Input() reaction: any;
+  @Input() reaction: any
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.reaction);
+    $('.modal').modal()
+  }
+
+  openReactionModal = () => {
+    $('#modal-reaction-' + this.reaction.id).modal('open')
+  }
+
+  closeReactionModal = () => {
+    $('#modal-reaction-' + this.reaction.id).modal('close')
   }
 
 }

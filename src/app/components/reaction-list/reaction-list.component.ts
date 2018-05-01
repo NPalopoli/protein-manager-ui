@@ -17,9 +17,7 @@ export class ReactionListComponent implements OnInit {
     this.proteinDataService.getSearchResultById()
       .subscribe( result => {
           this.protein = result;
-          console.log(this.protein);
         });
-
   }
 
   ngOnInit() {

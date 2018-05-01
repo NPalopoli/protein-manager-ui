@@ -1,0 +1,16 @@
+.img-small {
+  width: 20%;
+  height: 20%;
+}
+
+.ico-white {
+  fill: white;
+}
+
+.somePadding {
+  padding: 10px;
+}
+
+.hand {
+  cursor: pointer;
+}
