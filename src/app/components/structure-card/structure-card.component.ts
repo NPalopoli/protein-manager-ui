@@ -1,7 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core'
+import {MaterializeDirective} from "angular2-materialize"
 
-declare const jQuery:any;
-declare const $:any;
+declare const jQuery:any
+declare const $:any
+
+declare const pv:any
 
 @Component({
   selector: 'app-structure-card',
@@ -12,14 +15,14 @@ export class StructureCardComponent implements OnInit {
 
   @Input() structure: any;
   private structureLink: string;
+  private viewer:any
+  private pvStructure:any
 
-  constructor() {
-
-  }
+  constructor() {}
 
   ngOnInit() {
-    $('.modal').modal();
-    this.structureLink = this.getSructureLink(this.structure);
+    $('.modal').modal()
+    this.structureLink = this.getSructureLink(this.structure)
   }
 
   getSructureLink = (structure) => {
@@ -30,14 +33,61 @@ export class StructureCardComponent implements OnInit {
 
   openReactionModal = () => {
     $('#modal-structure-' + this.structure).modal('open')
-    // this.loadPdb({
-    //   width: 600,
-    //   height: 600,
-    //   antialias: true,
-    //   quality : 'medium'
-    // });
+
+    const options = {
+      width: 600,
+      height: 600,
+      antialias: true,
+      quality : 'medium'
+    }
+    $('#viewer-'+this.structure).empty();
+    this.viewer = pv.Viewer(document.getElementById('viewer-'+this.structure), options)
+    this.loadPdb("1r6a")
   }
 
-  closeReactionModal = () => { $('#modal-structure-' + this.structure).modal('close') }
+  closeReactionModal = () => $('#modal-structure-' + this.structure).modal('close')
+
+  loadPdb = (pdbName) => {
+    pv.io.fetchPdb('/assets/pv/pdbs/' + pdbName + '.pdb', (structure) => {
+      // display the protein as cartoon, coloring the secondary structure
+      // elements in a rainbow gradient.
+      this.viewer.cartoon('protein', structure, { color : pv.color.ssSuccession() })
+      // there are two ligands in the structure, the co-factor S-adenosyl
+      // homocysteine and the inhibitor ribavirin-5' triphosphate. They have
+      // the three-letter codes SAH and RVP, respectively. Let's display them
+      // with balls and sticks.
+      this.viewer.autoZoom()
+      const ligands = structure.select({ rnames : ['SAH', 'RVP'] })
+      this.viewer.ballsAndSticks('ligands', ligands)
+      this.viewer.centerOn(structure)
+      this.pvStructure = structure
+    })
+  }
+
+  autoZoom = () => this.viewer.autoZoom()
+
+  rotate = () => this.viewer.rotate()
+
+  lines = () => {
+    this.viewer.clear()
+    this.viewer.lines('structure', this.pvStructure)
+  }
+
+  cartoon = () => {
+    this.viewer.clear()
+    this.viewer.cartoon('structure', this.pvStructure, { color: pv.color.ssSuccession() })
+  }
+  lineTrace = () => {
+    this.viewer.clear()
+    this.viewer.lineTrace('structure', this.pvStructure)
+  }
+  tube = () => {
+    this.viewer.clear()
+    this.viewer.tube('structure', this.pvStructure)
+  }
+  trace = () => {
+    this.viewer.clear()
+    this.viewer.trace('structure', this.pvStructure)
+  }
 
 }
