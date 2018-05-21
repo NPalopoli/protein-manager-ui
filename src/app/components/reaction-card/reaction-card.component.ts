@@ -18,6 +18,12 @@ export class ReactionCardComponent implements OnInit {
     $('.modal').modal()
   }
 
+  getMolecules = (type) => (this.reaction.cineticas.filter(cinetica => cinetica.tipo === type))
+
+  hasMolecules = (type) => (this.getMolecules(type).length > 0)
+
+  amountOfMolecules = (type) => this.getMolecules(type).length
+
   openReactionModal = () => {
     $('#modal-reaction-' + this.reaction.id).modal('open')
   }
@@ -25,5 +31,9 @@ export class ReactionCardComponent implements OnInit {
   closeReactionModal = () => {
     $('#modal-reaction-' + this.reaction.id).modal('close')
   }
+
+  cineticType = (type) => (type === "REACTIVO" ? "Reactive" : "Product")
+
+  getNameWithoutSpaces = () => this.reaction.descripcion.replace( /\s/g, "")
 
 }

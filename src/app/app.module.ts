@@ -32,6 +32,9 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AboutComponent } from './components/about/about.component';
 import { SequenceViewComponent } from './components/sequence-view/sequence-view.component';
+import { ProVizViewComponent } from './components/proviz-view/proviz-view.component';
+import { FactsComponent } from "./components/facts/facts.component";
+import { MoleculesTableComponent } from "./components/molecules-table/molecules-table.component";
 
 export function useFactory(backend: XHRBackend, defaultOptions: RequestOptions, errorNotifier: ErrorNotifierService)
 {
@@ -60,8 +63,10 @@ export function useFactory(backend: XHRBackend, defaultOptions: RequestOptions, 
     TutorialComponent,
     ContactComponent,
     AboutComponent,
-    SequenceViewComponent
-
+    SequenceViewComponent,
+    ProVizViewComponent,
+    FactsComponent,
+    MoleculesTableComponent
   ],
   imports: [
     FormsModule,

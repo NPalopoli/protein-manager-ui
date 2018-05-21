@@ -25,47 +25,79 @@
         </div>
         <div class="divider"></div>
         <br>
+        
         <div class="row">
-          <div class="col s6">
-            <p class="center-align"><strong>EC</strong></p>
-            <h4 class="center-align">{{reaction.ec}}</h4>
-          </div>
-          <div class="col s6">
-            <p class="center-align"><strong>Type</strong></p>
-            <h4 class="center-align">{{reaction.tipo}}</h4>
-          </div>
+          <p>EC: <strong>{{reaction.ec}}</strong></p>
+          <div class="divider"></div>
+          <p>Type: <strong>{{reaction.tipo}}</strong></p>
+          <div class="divider"></div>
         </div>
 
+        <p>Molecules:</p>
         <div class="row">
-          <div *ngFor="let cinetica of reaction.cineticas">
-              <div class="col l3 m6 s12">
-                <div class="card">
-                  <div class="card-content">
-                    <a href="{{cinetica.molecula.link}}" target="_blank"><span class="card-title">{{cinetica.molecula.nombre}}</span></a>
-                    <div class="row">
-                      <div class="col">
-                        <p class="center-align"><strong>km</strong></p>
-                        <p class="center-align">{{cinetica.km}}</p>
-                      </div>
-                      <div class="col">
-                        <p class="center-align"><strong>kcat</strong></p>
-                        <p class="center-align">{{cinetica.kcat}}</p>
-                      </div>
-                      <div class="col">
-                        <p class="center-align"><strong>kmcat</strong></p>
-                        <p class="center-align">{{cinetica.kmcat}}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- <div class="card-action">
-                  </div> -->
-                </div>
-              </div>
+          <div class="col s12">
+            <ul class="tabs" id="tab{{getNameWithoutSpaces()}}">
+              <li class="tab col s1"></li>
+              <li class="tab col s5" [class.disabled]="!hasMolecules('REACTIVO')"><a class="active" href="#reactive{{getNameWithoutSpaces()}}">substrates ({{amountOfMolecules('REACTIVO')}})</a></li>
+              <li class="tab col s5" [class.disabled]="!hasMolecules('PRODUCTO')"><a href="#product{{getNameWithoutSpaces()}}">products ({{amountOfMolecules('PRODUCTO')}})</a></li>
+              <li class="tab col s1"></li>
+            </ul>
+          </div>
+          <div id="reactive{{getNameWithoutSpaces()}}" class="col s12" *ngIf="hasMolecules('REACTIVO')">
+              <br>
+              <table class="striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>km</th>
+                    <th>Kcat</th>
+                    <th>Kmcat</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cinetica of getMolecules('REACTIVO')">
+                    <td>
+                      <a href="{{cinetica.molecula.link}}" target="_blank">
+                        <div style="height:100%;width:100%">
+                            {{cinetica.molecula.nombre}}
+                        </div>
+                      </a>
+                    </td>
+                    <td>{{cinetica.km}}</td>
+                    <td>{{cinetica.kcat}}</td>
+                    <td>{{cinetica.kmcat}}</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+          <div id="product{{getNameWithoutSpaces()}}" class="col s12" *ngIf="hasMolecules('PRODUCTO')">
+                <br>
+                <table class="striped">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>km</th>
+                      <th>Kcat</th>
+                      <th>Kmcat</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let cinetica of getMolecules('PRODUCTO')">
+                      <td>
+                        <a href="{{cinetica.molecula.link}}" target="_blank">
+                          <div style="height:100%;width:100%">
+                              {{cinetica.molecula.nombre}}
+                          </div>
+                        </a>
+                      </td>
+                      <td>{{cinetica.km}}</td>
+                      <td>{{cinetica.kcat}}</td>
+                      <td>{{cinetica.kmcat}}</td>
+                    </tr>
+                  </tbody>
+                </table>
           </div>
         </div>
-
-      </div>
-      <div class="modal-footer">
 
       </div>
     </div>
